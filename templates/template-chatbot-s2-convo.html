@@ -7,10 +7,10 @@
 <div id="primary" class="content-area">
     <main id="main" class="site-main">
         <div class="relative py-5 xl:py-10">
-            <div class="container px-3">
+            <div class="container px-3" >
                 <div class="flex flex-wrap gap-x-8 xl:flex-nowrap min-h-[calc(100vh-theme(space.52))] max-h-[calc(100vh-theme(space.52))] max-xl:max-h-[calc(100vh-theme(space.40)-theme(space.2))] max-xl:min-h-[calc(100vh-theme(space.40)-theme(space.2))]">
                     <div id="chatAside" class="fixed peer start-0 z-[1020] top-[calc(theme(space.16)+theme(space.1))] bottom-0 w-[calc(100%-40px)] max-xl:max-w-80 xl:w-[360px] xl:static flex-shrink-0  xl:!translate-x-0 ltr:-translate-x-full rtl:translate-x-full [&.active]:translate-x-0 max-xl:transition-transform">
-                        <div class="flex flex-col justify-stretch  h-full xl:rounded-lg bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+                        <div class="flex flex-col justify-stretch  h-full xl:rounded-lg bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800" style="height: 800px; overflow-y: auto;">
                             <div class="px-7 pt-7">
                                 <a href="{% url 'chatui' %}" class="class-toggle flex items-center gap-x-2 text-blue-600 text-sm">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
@@ -200,27 +200,7 @@
                         </div>
                     </div>
                     <div class="pt-3">
-                        <ul class="flex gap-x-3">
-                            <li>
-                                <div class="flex">
-                                    <input class="appearance-none h-0 w-0 opacity-0 peer" type="radio" id="gpt-4" name="language-model" checked />
-                                    <label class="bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-200 font-medium text-sm border border-slate-200 dark:border-slate-800 rounded-md px-3 py-1 cursor-pointer peer-checked:cursor-default peer-checked:text-blue-600 peer-checked:border-blue-300 peer-checked:dark:border-blue-900 transition-all" for="gpt-4">GPT 4</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="flex">
-                                    <input class="appearance-none h-0 w-0 opacity-0 peer" type="radio" id="Gemini" name="language-model" />
-                                    <label class="bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-200 font-medium text-sm border border-slate-200 dark:border-slate-800 rounded-md px-3 py-1 cursor-pointer peer-checked:cursor-default peer-checked:text-blue-600 peer-checked:border-blue-300 peer-checked:dark:border-blue-900 transition-all" for="Gemini">Gemini</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="flex">
-                                    <input class="appearance-none h-0 w-0 opacity-0 peer" type="radio"    />
-                                    <!-- name="language-model" id="Llama-3" -->
-                                    <label class="bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-200 font-medium text-sm border border-slate-200 dark:border-slate-800 rounded-md px-3 py-1 cursor-pointer peer-checked:cursor-default peer-checked:text-blue-600 peer-checked:border-blue-300 peer-checked:dark:border-blue-900 transition-all" for="Llama-3">Llama 3</label>
-                                </div>
-                            </li>
-                        </ul>
+                       
                         <div class="flex items-start gap-4 mt-3">
                             <textarea 
                                 name="tynChatInput" 
