@@ -5,8 +5,8 @@ import google.generativeai as genai
 
 
 
-genai.configure(api_key="AIzaSyBRAqorLHlWe3K7SHr8vf7LGHqBveIDm-s")
-#genai.configure(api_key="AIzaSyCRKIsZL-8UjLU_eLaHhNvSlVedIUDLb4g")
+# genai.configure(api_key="AIzaSyBRAqorLHlWe3K7SHr8vf7LGHqBveIDm-s")
+genai.configure(api_key="AIzaSyCRKIsZL-8UjLU_eLaHhNvSlVedIUDLb4g")
 
 
 # Set up the model
@@ -166,10 +166,12 @@ def ask_question(request):
 
         """
         ]
-        # my_list.extend([question])
-        # hy = model.generate_content(my_list)
-        # response =hy.text
-        response ='Hi i am not feeling well.'
+        my_list.extend([question])
+        hy = model.generate_content(my_list)
+        response =hy.text
+        # response ='My name is Jass'
+
+        # print('HIIIIIIIII')
 
 
         

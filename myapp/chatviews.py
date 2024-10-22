@@ -15,13 +15,13 @@ def chatui(request):
         'chatTitles':chatTitles,
         'chatBodyscount':chatBodyscount,
     }
-    return render(request, 'template-chatbot-s2-convo.html',data)
+    return render(request, 'a_mainchat.html',data)
 
 
 
 def chat_add(request):
     offset = request.GET.get('offset')
-    response = requests.post('https://foresightbyte.onrender.com/ask/', json={"question_text": offset})
+    response = requests.post('http://localhost:8000/ask/', json={"question_text": offset})
     data = response.json()  # Convert the response to JSON
 
     if 'counter' not in request.session:
