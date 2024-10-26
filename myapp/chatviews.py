@@ -21,7 +21,7 @@ def chatui(request):
 
 def chat_add(request):
     offset = request.GET.get('offset')
-    response = requests.post('http://localhost:8000/ask/', json={"question_text": offset})
+    response = requests.post('http://srv627362.hstgr.cloud/ask/', json={"question_text": offset})
     data = response.json()  # Convert the response to JSON
 
     if 'counter' not in request.session:
