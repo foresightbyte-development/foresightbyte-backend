@@ -186,33 +186,13 @@ def sentimentui(request):
 
 def sentiment_add(request):
     offset = request.GET.get('offset')
-    # Use the offset parameter to get the next set of content from the database or another source
-    # Build the HTML for the new content
-    content_html = '<div>New content here</div>'
-
-
-    # random_string = 'ggggggggggggggggggggggggggg'
-
-    # print('bbbbbbbbbbbbb',offset)
-
     mm = sentimentlma(offset)
-
     chatbot_response = str(mm)
-
-    word_formatting = {
-        'Intent': '<strong>hello</strong>',
-        'Sentiment': '<strong>world</strong>',
-    }
-
 
     specific_words = ['Intent']
     for word in specific_words:
         chatbot_response = chatbot_response.replace(word, f'<br/>{word}')
-    # print('chatbot_response',chatbot_response)
-
-
-    # for wordn, formatting in word_formatting.items():
-    #     chatbot_response = chatbot_response.replace(wordn, f'<br/>{formatting}')
+    
 
     specific_wordsn = ['Intent', 'Sentiment']
 
@@ -220,11 +200,7 @@ def sentiment_add(request):
     for wordn in specific_wordsn:
         chatbot_response = chatbot_response.replace(wordn, f'<strong>{wordn}</strong>')
 
-
-
-  
     data = {
-        'content_html': content_html,
         'my': offset,
         'chatbot_response': chatbot_response,
     }

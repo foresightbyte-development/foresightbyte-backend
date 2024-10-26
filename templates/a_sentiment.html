@@ -35,11 +35,13 @@
 <script>
     $(document).ready(function () {
         // Send an AJAX request to the Django view
-        $('#chatbtn').click(function () {
-            var user_input = $("#tynChatInput").val(); // Corrected typo from 'ar' to 'var'
-            $("#tynChatInput").val("");
-            var firstValue = 0; // Ensure this is properly managed if needed for subsequent requests
-  
+        $('#chatbtn').click(function (event) {
+            event.preventDefault(); // Prevent form submission and page refresh
+    
+            var user_input = $("#tynChatInput").val();
+            $("#tynChatInput").val(""); // Clear the input field after submission
+            var firstValue = 0; // Initialize firstValue
+    
             $.ajax({
                 url: "{% url 'sentiment_add' %}",
                 type: 'get',
@@ -50,31 +52,29 @@
                 },
                 success: function(response) {
                     console.log(response);
-                    firstValue = 4;
-  
+                    firstValue = 4; // Update firstValue if needed
+    
                     $('#report_dynamic_field').html(
                         '<div class="tyn-qa-item">' +
                             '<div class="tyn-qa-message tyn-text-block">' +
-                               'Text : '+ response.data.my +
+                               'Text: ' + response.data.my +
                             '</div>' +
                         '</div>' +
                         '<div class="tyn-qa-item mb-3">' +
                             '<div class="tyn-qa-message tyn-text-block">' +
-                                '<p>' +
-                                    response.data.chatbot_response + 
-                                '</p>' +
+                                '<p>' + response.data.chatbot_response + '</p>' +
                             '</div>' +
                         '</div>'
                     );
                 },
                 error: function() {
-                    // Handle any errors
                     alert('Error loading more content.');
                 }
             });
         });
     });
-  </script>
+    </script>
+    
   
 
 {% endblock js%}
