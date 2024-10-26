@@ -248,7 +248,7 @@ def sentimentlma(question):
 
     my_list.extend([question])
 
-    prompt_parts = my_list.append(question)
+    # prompt_parts = my_list.append(question)
 
     # print('prompt_parts',my_list)
     hy = model.generate_content(my_list)
