@@ -66,7 +66,7 @@
                     {% if chatTitle.id == id %}
 
                 <div class="single-history">
-                    <a href="{% url 'dynamic' chatTitle.id %}"><p>{{ chatTitle.title }}</p> 
+                    <a href="{% url 'dynamic' chatTitle.id %}"><p>{{ chatTitle.title|truncatechars:30 }}</p> 
                     <a href="{% url 'dynamic_delete' chatTitle.id %}">
                         <img src="{% static 'chatbot/assets/images/icons/icons8-delete.svg' %}" alt="icons" width="50px">
                         
@@ -74,7 +74,7 @@
                 </div>
                 {% else %}
                 <div class="single-history">
-                    <a href="{% url 'dynamic' chatTitle.id %}"><p>{{ chatTitle.title }}</p></a> 
+                    <a href="{% url 'dynamic' chatTitle.id %}"><p>{{ chatTitle.title|truncatechars:30 }}</p></a> 
                     <a href="{% url 'dynamic_delete' chatTitle.id %}">
                         <img src="{% static 'chatbot/assets/images/icons/icons8-delete.svg' %}" alt="icons" width="30px">
                         
