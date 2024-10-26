@@ -22,6 +22,8 @@ def chatui(request):
 def chat_add(request):
     offset = request.GET.get('offset')
     response = requests.post('https://srv627362.hstgr.cloud/ask/', json={"question_text": offset})
+    # response = requests.post('http://localhost:8000/ask/', json={"question_text": offset})
+
     data = response.json()  # Convert the response to JSON
 
     if 'counter' not in request.session:
@@ -48,30 +50,16 @@ def chat_add(request):
     chatBody.question = offset
     chatBody.answer = chatbot_response
     chatBody.save()
+
+    # print('chatBody',offset)
+    # print('chatBody',chatbot_response)
     
-    
 
-    # word_formatting = {
-    #     'Intent': '<strong>hello</strong>',
-    #     'Sentiment': '<strong>world</strong>',
-    # }
-
-
-    specific_words = ['Intent']
-    for word in specific_words:
-        chatbot_response = chatbot_response.replace(word, f'<br/>{word}')
-
-
-    specific_wordsn = ['Intent', 'Sentiment']
-
-    # Iterate through the specific words and apply bold formatting
-    for wordn in specific_wordsn:
-        chatbot_response = chatbot_response.replace(wordn, f'<strong>{wordn}</strong>')
 
 
     data = {
         'my': offset,
-        'chatbot_response': data['answer_text'],
+        'chatbot_response':chatbot_response,
     }
 
     return JsonResponse({'data': data})
