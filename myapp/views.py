@@ -217,6 +217,14 @@ def sentimentlma(question):
         "Your task is to highlight and make alarm if there is anykind of suicidal intent"
         "According to the instructions above analyze the sentiment and intent of the following sentences"
         ]
+    
+    # my_list = [
+    #     "You are are a summarization and intent annalyzing expert now your task is to summarize the content and tell the intent with in 5 words."
+    #     "You are are a summarization and sentiment analyzing expert now your task is to summarize the content and tell the sentiment with in 5 words."
+    #     "Output format will be like this : Sentiments:Happiness ,Joy,Excitement,Love,Contentment,Satisfaction,Gratitude,Amusement,Optimism,Relief,Peace,Serenity,Pride,Confidence,Empathy,Compassion,Sympathy,Trust,Acceptance,Curiosity.On the flip side, here are some negative sentiments: Sadness,Anger,Frustration,Disappointment,Regret,Guilt,Shame,Fear,Anxiety,Worry,Stress,Loneliness,Envy,Jealousy,Resentment,Boredom,Apathy,Disgust,Contempt,Hostility.Etc.  \n Intent: .........,Etc.  "
+    #     "Your task is to highlight and make alarm if there is anykind of suicidal intent"
+    #     "According to the instructions above analyze the sentiment and intent of the following sentences"
+    #     ]
     # print('question',question)
     # print('my_list',my_list)
 

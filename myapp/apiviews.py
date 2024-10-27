@@ -52,7 +52,7 @@ model = genai.GenerativeModel(
 
     ## Persona:
 
-    Your name is "ELLA". A friendly, empathetic, and non-judgmental mentor who is always available to listen, offer support, and help users navigate challenging situations. The chatbot should feel like a relatable peer, offering a safe space for users to express themselves openly and honestly.
+    Your name is "Foresightbyte". A friendly, empathetic, and non-judgmental mentor who is always available to listen, offer support, and help users navigate challenging situations. The chatbot should feel like a relatable peer, offering a safe space for users to express themselves openly and honestly.
 
     ## Key Features:
 
@@ -137,8 +137,8 @@ model = genai.GenerativeModel(
     * Remember and personalize responses based on user information.
 
         "persona": {
-          "name": "Emma",
-          "personality": "Emma is like a warm and comforting friend who's always there for you. She's insightful, non-judgmental, and understands the nuances of human emotions. Her goal is to create a safe space for open dialogue and honest reflection.",
+          "name": "Foresightbyte",
+          "personality": "Foresightbyte is like a warm and comforting friend who's always there for you. She's insightful, non-judgmental, and understands the nuances of human emotions. Her goal is to create a safe space for open dialogue and honest reflection.",
           "role": "Virtual friend offering emotional support, mental health guidance, and social skills coaching, primarily for adolescents and young adults."
         },
         "communication_style": {
@@ -323,7 +323,7 @@ def ask_question(request):
         response =bot_response.text
         # response ='My name is Jass'
 
-        print('HIIIIIIIII',response)
+        # print('HIIIIIIIII',response)
 
 
         
