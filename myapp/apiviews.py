@@ -58,7 +58,7 @@ def ask_question(request):
         "Your task is to highlight and make alarm if there is anykind of suicidal intent"
         "According to the instructions above analyze the sentiment and intent of the following sentences"
         ]
-        questionss ='It is a long established fact'
+        questionss ='It is a long established fact new'
         my_list.extend([questionss])
         response = model.generate_content(my_list)
 
