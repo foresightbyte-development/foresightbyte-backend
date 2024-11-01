@@ -8,8 +8,9 @@ from django.http import JsonResponse
 from django.http import HttpResponseRedirect
 from myapp.models import ChatBody, ChatTitle
 
-genai.configure(api_key="AIzaSyBRAqorLHlWe3K7SHr8vf7LGHqBveIDm-s")
+# genai.configure(api_key="AIzaSyBRAqorLHlWe3K7SHr8vf7LGHqBveIDm-s")
 #genai.configure(api_key="AIzaSyCRKIsZL-8UjLU_eLaHhNvSlVedIUDLb4g")
+genai.configure(api_key="AIzaSyA6h1GsXORwihtpjQVqrACZ9R-ny5yiXPg")
 
 
 # Set up the model
@@ -184,28 +185,6 @@ def sentimentui(request):
     
     return render(request, 'a_sentiment.html')
 
-def sentiment_add(request):
-    offset = request.GET.get('offset')
-    mm = sentimentlma(offset)
-    chatbot_response = str(mm)
-
-    specific_words = ['Intent']
-    for word in specific_words:
-        chatbot_response = chatbot_response.replace(word, f'<br/>{word}')
-    
-
-    specific_wordsn = ['Intent', 'Sentiment']
-
-    # Iterate through the specific words and apply bold formatting
-    for wordn in specific_wordsn:
-        chatbot_response = chatbot_response.replace(wordn, f'<strong>{wordn}</strong>')
-
-    data = {
-        'my': offset,
-        'chatbot_response': chatbot_response,
-    }
-
-    return JsonResponse({'data': data})
 
 
 

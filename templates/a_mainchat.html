@@ -40,10 +40,13 @@
         </div>
         {% endfor %}
     </div>
-    <form action="#" class="search-form">
-        <input type="text" name="tynChatInput"  id="tynChatInput" placeholder="Message openup...">
-        <button id="chatbtn"><i class="fa-regular fa-arrow-up"></i></button>
-    </form>
+    <div >
+        <form action="#" class="search-form">
+            <input type="text" name="tynChatInput"  id="tynChatInput" placeholder="Message openup...">
+            <button id="chatbtn"><i class="fa-regular fa-arrow-up"></i></button>
+        </form>
+    </div>
+    
     
 </div>
 <!-- End dynamic chatbot -->
@@ -98,78 +101,85 @@
 
    
 {% block js%}
-
 <script>
     $(document).ready(function () {
-    let isFirstRequest = true; // Track if it's the first request
+        let isFirstRequest = true; // Track if it's the first request
 
-    $('#chatbtn').click(function (e) {
-        e.preventDefault();
+        $('#chatbtn').click(function (e) {
+            e.preventDefault();
 
-        let user_input = $("#tynChatInput").val();
-        $("#tynChatInput").val("");  // Clear the input field
+            let user_input = $("#tynChatInput").val();
+            $("#tynChatInput").val("");  // Clear the input field
 
-        // Check if this is the first request and apply a short delay if so
-        const handleResponse = function(response) {
-            console.log("Response from server:", response);
-
+            // Show user's message instantly
             $('#report_dynamic_field').append(
-                `<div class="single__question__answer">
+                `<div class="single__question__answer user-message">
                     <div class="question_user">
                         <div class="left_user_info">
                             <img src="{% static 'chatbot/assets/images/avatar/03.png' %}" alt="avatar">
-                            <div class="question__user">${response.data.my}</div>
-                        </div>
-                        <div class="edit__icon openuptip" tooltip="Edit It">
-                            <i class="fa-regular fa-pen-to-square"></i>
+                            <div class="question__user">${user_input}</div>
                         </div>
                     </div>
-                    <div class="answer__area">
-                        <div class="thumbnail">
-                            <img src="{% static 'ui/assets/images/favicon.ico' %}" alt="avatar">
-                        </div>
+                    <div class="answer__area pending-response">
                         <div class="answer_main__wrapper">
                             <h4 class="common__title">Foresightbyte</h4>
-                            <p class="disc">${response.data.chatbot_response}</p>
+                            <p class="disc loading-indicator">Loading...</p> <!-- Loading indicator here -->
                         </div>
-                    </div>
-                    <div class="share-reaction-area">
-                        <ul>
-                            <li><a href="#" class="openuptip" tooltip="Save It"><i class="fa-regular fa-bookmark"></i></a></li>
-                            <li><a href="#" class="openuptip" tooltip="Like"><i class="fa-light fa-thumbs-up"></i></a></li>
-                            <li><a href="#" class="openuptip" tooltip="Unlike"><i class="fa-regular fa-thumbs-down"></i></a></li>
-                        </ul>
                     </div>
                 </div>`
             );
 
-            isFirstRequest = false; // Update after the first request
-        };
+            // Function to handle typing animation
+            const displayTypingEffect = (text, element) => {
+                let index = 0;
+                const interval = setInterval(() => {
+                    if (index < text.length) {
+                        $(element).append(text[index++]);
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 50);  // Adjust typing speed here (50 ms per character)
+            };
 
-        $.ajax({
-            url: "{% url 'chat_add' %}",
-            type: 'get',
-            dataType: 'json',
-            data: { offset: user_input },
-            success: function(response) {
-                // If it's the first request, add a delay to allow session initialization
-                if (isFirstRequest) {
-                    setTimeout(() => handleResponse(response), 500);  // 500ms delay
-                } else {
-                    handleResponse(response);
+            // Define how to handle the server response
+            const handleResponse = function(response) {
+                console.log("Response from server:", response);
+
+                // Replace loading indicator with empty element for typing effect
+                const typingElement = $('.pending-response').last().find('.loading-indicator');
+                typingElement.text(''); // Clear loading text
+
+                // Start typing animation in the cleared element
+                displayTypingEffect(response.data.chatbot_response, typingElement);
+
+                isFirstRequest = false; // Update after the first request
+            };
+
+            $.ajax({
+                url: "{% url 'chat_add' %}",
+                type: 'get',
+                dataType: 'json',
+                data: { offset: user_input },
+                success: function(response) {
+                    // If it's the first request, add a delay to allow session initialization
+                    if (isFirstRequest) {
+                        setTimeout(() => handleResponse(response), 500);  // 500ms delay
+                    } else {
+                        handleResponse(response);
+                    }
+                },
+                complete: function () {
+                    console.log("Request completed.");
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error loading content:", error);
+                    alert("There was an error loading the chat response. Please try again.");
                 }
-            },
-            complete: function () {
-                console.log("Request completed.");
-            },
-            error: function (xhr, status, error) {
-                console.error("Error loading content:", error);
-                alert("There was an error loading the chat response. Please try again.");
-            }
+            });
         });
     });
-});
-
 </script>
+
+
 
 {% endblock js%}

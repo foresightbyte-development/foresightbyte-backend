@@ -5,6 +5,7 @@ from django.urls import include, path
 from myapp.views import *
 from myapp.chatviews import *
 from myapp.apiviews import *
+from myapp.sentviews import *
 
 # Routing Implement
 urlpatterns = [

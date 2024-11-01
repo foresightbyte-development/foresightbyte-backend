@@ -37,11 +37,20 @@
         // Send an AJAX request to the Django view
         $('#chatbtn').click(function (event) {
             event.preventDefault(); // Prevent form submission and page refresh
-    
+            
             var user_input = $("#tynChatInput").val();
             $("#tynChatInput").val(""); // Clear the input field after submission
             var firstValue = 0; // Initialize firstValue
-    
+            
+            // Append user input to the chat area immediately
+            $('#report_dynamic_field').append(
+                '<div class="tyn-qa-item">' +
+                    '<div class="tyn-qa-message tyn-text-block">' +
+                        'Text: ' + user_input +
+                    '</div>' +
+                '</div>'
+            );
+
             $.ajax({
                 url: "{% url 'sentiment_add' %}",
                 type: 'get',
@@ -53,13 +62,9 @@
                 success: function(response) {
                     console.log(response);
                     firstValue = 4; // Update firstValue if needed
-    
-                    $('#report_dynamic_field').html(
-                        '<div class="tyn-qa-item">' +
-                            '<div class="tyn-qa-message tyn-text-block">' +
-                               'Text: ' + response.data.my +
-                            '</div>' +
-                        '</div>' +
+                    
+                    // Append the chatbot response to the chat area
+                    $('#report_dynamic_field').append(
                         '<div class="tyn-qa-item mb-3">' +
                             '<div class="tyn-qa-message tyn-text-block">' +
                                 '<p>' + response.data.chatbot_response + '</p>' +
@@ -73,8 +78,8 @@
             });
         });
     });
-    </script>
-    
+</script>
+
   
 
 {% endblock js%}
