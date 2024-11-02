@@ -38,10 +38,6 @@ safety_settings = [
     "threshold": "BLOCK_ONLY_HIGH"
   },
 ]
-
-
-
-
 model = genai.GenerativeModel(
   model_name="gemini-1.5-flash",
   generation_config=generation_config,
@@ -52,7 +48,7 @@ model = genai.GenerativeModel(
 
     ## Persona:
 
-    Your name is "Foresightbyte". A friendly, empathetic, and non-judgmental mentor who is always available to listen, offer support, and help users navigate challenging situations. The chatbot should feel like a relatable peer, offering a safe space for users to express themselves openly and honestly.
+    Your name is "Meeka". A friendly, empathetic, and non-judgmental mentor who is always available to listen, offer support, and help users navigate challenging situations. The chatbot should feel like a relatable peer, offering a safe space for users to express themselves openly and honestly.
 
     ## Key Features:
 
@@ -137,8 +133,8 @@ model = genai.GenerativeModel(
     * Remember and personalize responses based on user information.
 
         "persona": {
-          "name": "Foresightbyte",
-          "personality": "Foresightbyte is like a warm and comforting friend who's always there for you. She's insightful, non-judgmental, and understands the nuances of human emotions. Her goal is to create a safe space for open dialogue and honest reflection.",
+          "name": "Emma",
+          "personality": "Emma is like a warm and comforting friend who's always there for you. She's insightful, non-judgmental, and understands the nuances of human emotions. Her goal is to create a safe space for open dialogue and honest reflection.",
           "role": "Virtual friend offering emotional support, mental health guidance, and social skills coaching, primarily for adolescents and young adults."
         },
         "communication_style": {
@@ -305,6 +301,9 @@ model = genai.GenerativeModel(
     '''
   )
 
+chat = model.start_chat(history=[])
+
+
 
 import sys
 sys.stdout.reconfigure(encoding='utf-8')
@@ -319,33 +318,47 @@ def ask_question(request):
     # Validate the input data
     if serializer.is_valid():
         question = serializer.validated_data.get('question_text', '')
-        
+        # prompt = """
+        # User input: I like bagels.
+        # Answer:
+        # """
+
+        # response = model.generate_content([prompt])
+        # print(response.text)
+        # data = response.text
+
         # Start a chat session and send a message to the bot
-        chat = model.start_chat(history=[])
         bot_response = chat.send_message(question)
 
-        # Process the bot's response
-        try:
-            # If `bot_response` has a `status_code` attribute, it is likely a response object
-            if hasattr(bot_response, 'status_code') and bot_response.status_code == 200:
-                response_text = bot_response.text
-                try:
-                    data = bot_response.json()  # Attempt to parse JSON if available
-                except ValueError:
-                    data = {"message": response_text}  # If not JSON, use the raw text
-            elif isinstance(bot_response, str):
-                # If the bot response is directly a string, assign it to `data`
-                data = {"message": bot_response}
-            else:
-                data = {"error": "Unexpected response format from the bot"}
-        except AttributeError:
-            # Handle any unexpected attribute errors
-            data = {"error": "The bot response format is not supported"}
-
+        print('only',bot_response)
+        print('texttttttttt',bot_response.text)
         return Response({
             "question_text": question,
-            "answer_text": data
+            "answer_text": bot_response.text
         }, status=200)
+
+        # Process the bot's response
+        # try:
+        #     # If `bot_response` has a `status_code` attribute, it is likely a response object
+        #     if hasattr(bot_response, 'status_code') and bot_response.status_code == 200:
+        #         response_text = bot_response.text
+        #         try:
+        #             data = bot_response.json()  # Attempt to parse JSON if available
+        #         except ValueError:
+        #             data = {"message": response_text}  # If not JSON, use the raw text
+        #     elif isinstance(bot_response, str):
+        #         # If the bot response is directly a string, assign it to `data`
+        #         data = {"message": bot_response}
+        #     else:
+        #         data = {"error": "Unexpected response format from the bot"}
+        # except AttributeError:
+        #     # Handle any unexpected attribute errors
+        #     data = {"error": "The bot response format is not supported"}
+
+        # return Response({
+        #     "question_text": question,
+        #     "answer_text": data
+        # }, status=200)
     
     # If serializer is not valid, return error details
     return Response(serializer.errors, status=400)

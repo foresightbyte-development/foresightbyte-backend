@@ -34,7 +34,6 @@
 {% block js%}
 <script>
     $(document).ready(function () {
-        // Send an AJAX request to the Django view
         $('#chatbtn').click(function (event) {
             event.preventDefault(); // Prevent form submission and page refresh
             
@@ -42,8 +41,8 @@
             $("#tynChatInput").val(""); // Clear the input field after submission
             var firstValue = 0; // Initialize firstValue
             
-            // Append user input to the chat area immediately
-            $('#report_dynamic_field').append(
+            // Display user input in the chat area
+            $('#report_dynamic_field').html(
                 '<div class="tyn-qa-item">' +
                     '<div class="tyn-qa-message tyn-text-block">' +
                         'Text: ' + user_input +
@@ -63,8 +62,13 @@
                     console.log(response);
                     firstValue = 4; // Update firstValue if needed
                     
-                    // Append the chatbot response to the chat area
-                    $('#report_dynamic_field').append(
+                    // Replace the chatbot response in the chat area
+                    $('#report_dynamic_field').html(
+                        '<div class="tyn-qa-item">' +
+                            '<div class="tyn-qa-message tyn-text-block">' +
+                                'Text: ' + user_input +
+                            '</div>' +
+                        '</div>' +
                         '<div class="tyn-qa-item mb-3">' +
                             '<div class="tyn-qa-message tyn-text-block">' +
                                 '<p>' + response.data.chatbot_response + '</p>' +
