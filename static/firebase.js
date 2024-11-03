@@ -24,6 +24,7 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app)
 const auth = getAuth()
+var userName;
 
 var isAuth = false;
 
@@ -32,9 +33,10 @@ onAuthStateChanged(auth, (user) => {
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/auth.user
     isAuth = true;
-    console.log("authentic")
+    console.log("authentic", user)
     // document.getElementById("auth-buttons").style.display = "none";
     // document.getElementsByClassName("auth-buttons").style.display = "none";
+    
     toggleAuthButtons(true)
     // ...
   } else {
@@ -108,20 +110,23 @@ function signUp() {
     });
   }
 
-  function logOut(){
+  function logOut() {
     signOut(auth).then(() => {
       // Sign-out successful.
       isAuth = false;
       console.log("Logged out")
       // document.getElementById("auth-buttons").style.display = "none";
       // document.getElementsByClassName("auth-buttons").style.display = "none";
+      window.location.href = "//";
       toggleAuthButtons(false)
     }).catch((error) => {
       // An error happened.
     });
   }
 
-
+  function showAlert(){
+    alert("worked")
+  }
 
   // Function to show the popup
   function showPopup(msg) {
@@ -143,7 +148,7 @@ function signUp() {
   }
 
   // Close the popup if the user clicks outside of it
-  document.getElementById("overlay").addEventListener("click", closePopup);
+  // document.getElementById("overlay").addEventListener("click", closePopup);
 
   // Function to control the visibility of the buttons
   function toggleAuthButtons(isAuth) {
@@ -176,4 +181,5 @@ function signUp() {
   window.closePopup = closePopup;
   window.toggleAuthButtons = toggleAuthButtons;
   window.resetPassword = resetPassword;
+  window.showAlert = showAlert;
   
