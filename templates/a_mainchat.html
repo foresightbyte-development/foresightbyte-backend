@@ -138,7 +138,7 @@
                     } else {
                         clearInterval(interval);
                     }
-                }, 50);  // Adjust typing speed here (50 ms per character)
+                }, 20);  // Adjust typing speed here (50 ms per character)
             };
 
             // Define how to handle the server response
@@ -163,7 +163,7 @@
                 success: function(response) {
                     // If it's the first request, add a delay to allow session initialization
                     if (isFirstRequest) {
-                        setTimeout(() => handleResponse(response), 500);  // 500ms delay
+                        setTimeout(() => handleResponse(response), 50);  // 500ms delay
                     } else {
                         handleResponse(response);
                     }

@@ -21,50 +21,46 @@ def chatui(request):
 
 def chat_add(request):
     offset = request.GET.get('offset')
-    # response = requests.post('https://srv627362.hstgr.cloud/ask/', json={"question_text": offset})
-    response = requests.post('http://localhost:8000/ask/', json={"question_text": offset})
+    response = requests.post('https://srv627362.hstgr.cloud/ask/', json={"question_text": offset})
+    # response = requests.post('http://localhost:8000/ask/', json={"question_text": offset})
+    try:
+        data = response.json()  # Convert the response to JSON
+        if 'counter' not in request.session:
+            request.session['counter'] = 0
 
-    data = response.json()  # Convert the response to JSON
+        mm = data['answer_text']
+        
 
-    print('QQQdataaaaa',data)
-
-    if 'counter' not in request.session:
-        request.session['counter'] = 0
-
-    mm = data['answer_text']
+        chatbot_response = str(mm)
+        if request.session['counter'] == 0:
+            request.session['counter'] += 1
+            chatTitle = ChatTitle()
+            chatTitle.title = offset
+            chatTitle.save()
+            request.session['chatTitleID'] = chatTitle.id
     
+        
+        chatTitleID = request.session['chatTitleID']
+        mychatTitleID = ChatTitle.objects.get(id=chatTitleID)
 
-    chatbot_response = str(mm)
-    if request.session['counter'] == 0:
-        request.session['counter'] += 1
-        chatTitle = ChatTitle()
-        chatTitle.title = offset
-        chatTitle.save()
+        chatBody = ChatBody()
+        chatBody.chatTitle_id = mychatTitleID
+        chatBody.question = offset
+        chatBody.answer = chatbot_response
+        chatBody.save()
+        data = {
+            'chatbot_response':chatbot_response,
+        }
 
-        request.session['chatTitleID'] = chatTitle.id
-   
-    
-    chatTitleID = request.session['chatTitleID']
-    mychatTitleID = ChatTitle.objects.get(id=chatTitleID)
+        return JsonResponse({'data': data})
+    except requests.RequestException as e:
+        chatbot_response = 'HARASSMENT, HATE_SPEECH , SEXUALLY_EXPLICIT, DANGEROUS_CONTENT not reply.'
 
-    chatBody = ChatBody()
-    chatBody.chatTitle_id = mychatTitleID
-    chatBody.question = offset
-    chatBody.answer = chatbot_response
-    chatBody.save()
+        data = {
+            'chatbot_response':chatbot_response,
+        }
 
-    # print('chatBody',offset)
-    # print('chatBody',chatbot_response)
-    
-
-
-
-    data = {
-        'my': offset,
-        'chatbot_response':chatbot_response,
-    }
-
-    return JsonResponse({'data': data})
+        return JsonResponse({'data': data})
 
 
 # def chat_add(request):

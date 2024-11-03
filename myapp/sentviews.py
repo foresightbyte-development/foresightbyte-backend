@@ -1,6 +1,5 @@
 from django.shortcuts import render,redirect
 import time
-from django.http import StreamingHttpResponse
 import json
 # Create your views here.
 import google.generativeai as genai
@@ -10,49 +9,77 @@ from myapp.models import ChatBody, ChatTitle
 
 import google.generativeai as genai
 
-#genai.configure(api_key="AIzaSyCa3TodvqZSSo3NlzLKzFfTuiEMrb73rbI")
 genai.configure(api_key="AIzaSyDGGMfoKBHGPASaai4QerSIEudCE2x7ZoM")
-#genai.configure(api_key="AIzaSyCRKIsZL-8UjLU_eLaHhNvSlVedIUDLb4g")
-# print(genai.GenerativeModel.__init__.__code__.co_varnames)
+
+
 
 # Set up the model
 generation_config = {
-  "temperature": 1,
+  "temperature": 0.5,
   "top_p": 1,
-  "top_k": 64,
-  "max_output_tokens": 8192,
+  "top_k": 1,
+  "max_output_tokens": 2048,
 }
 
 safety_settings = [
   {
     "category": "HARM_CATEGORY_HARASSMENT",
-    "threshold": "BLOCK_ONLY_HIGH"
+    "threshold": "LOW"
   },
   {
     "category": "HARM_CATEGORY_HATE_SPEECH",
-    "threshold": "BLOCK_ONLY_HIGH"
+    "threshold": "LOW"
   },
   {
     "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-    "threshold": "BLOCK_ONLY_HIGH"
+    "threshold": "LOW"
   },
   {
     "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-    "threshold": "BLOCK_ONLY_HIGH"
+    "threshold": "LOW"
   },
 ]
-model = genai.GenerativeModel(
-  model_name="gemini-1.5-flash",
-  generation_config=generation_config
-  )
 
-chat = model.start_chat(history=[])
 
+model = genai.GenerativeModel(model_name="gemini-1.0-pro",
+                              generation_config=generation_config,
+                              safety_settings=safety_settings)
+from django.http import JsonResponse
 
 def sentiment_add(request):
     offset = request.GET.get('offset')
-    # mm = sentimentlma(offset)
-    # user_input = input("You: ")
+    
+    try:
+        # Attempt to call sentimentlma and process the response
+        mm = sentimentlma(offset)
+        chatbot_response = str(mm)
+        
+        # Format specific words with <br/> and <strong> tags
+        specific_words = ['Intent']
+        for word in specific_words:
+            chatbot_response = chatbot_response.replace(word, f'<br/>{word}')
+        
+        specific_wordsn = ['Intent', 'Sentiment']
+        for wordn in specific_wordsn:
+            chatbot_response = chatbot_response.replace(wordn, f'<strong>{wordn}</strong>')
+        
+        # Prepare data for the response
+        data = {
+            'chatbot_response': chatbot_response,
+        }
+        return JsonResponse({'data': data})
+
+    except Exception as e:
+        chatbot_response = 'HARASSMENT, HATE_SPEECH , SEXUALLY_EXPLICIT, DANGEROUS_CONTENT not analysis.'
+        # Handle the exception and return an error response
+        data = {
+            'chatbot_response': chatbot_response,
+        }
+        return JsonResponse({'data': data})
+
+
+
+def sentimentlma(question):
     my_list = [
         "You are are a summarization and intent annalyzing expert now your task is to summarize the content and tell the intent with in 5 words."
         "You are are a summarization and sentiment analyzing expert now your task is to summarize the content and tell the sentiment with in 5 words."
@@ -60,37 +87,22 @@ def sentiment_add(request):
         "Your task is to highlight and make alarm if there is anykind of suicidal intent"
         "According to the instructions above analyze the sentiment and intent of the following sentences"
         ]
+    # print('question',question)
+    # print('my_list',my_list)
 
-    my_list.extend([offset])
-    response = model.generate_content(my_list)
-
-    # Print the bot response
-    print("ssdsdsda:", response.text)
-
-    chatbot_response = str(response)
-
-    print('dcsdcs',chatbot_response)
-
-    specific_words = ['Intent']
-    for word in specific_words:
-        chatbot_response = chatbot_response.replace(word, f'<br/>{word}')
     
 
-    specific_wordsn = ['Intent', 'Sentiment']
+    my_list.extend([question])
 
-    # Iterate through the specific words and apply bold formatting
-    for wordn in specific_wordsn:
-        chatbot_response = chatbot_response.replace(wordn, f'<strong>{wordn}</strong>')
+    # prompt_parts = my_list.append(question)
 
-    data = {
-        'my': offset,
-        'chatbot_response': chatbot_response,
-    }
+    # print('prompt_parts',my_list)
+    hy = model.generate_content(my_list)
 
-    return JsonResponse({'data': data})
-
-
-
+    print(hy.text)
+    response =hy.text
+    # response ='Hi i am not feeling well.'
+    return response
 
 # def sentimentlma(question):
 #     my_list = [
