@@ -12,6 +12,14 @@
     <link rel="stylesheet" href="{% static 'chatbot/assets/css/plugins/swiper.css' %}">
     <link rel="stylesheet" href="{% static 'chatbot/assets/css/vendor/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'chatbot/assets/css/style.css' %}">
+    <style>
+        .auth-buttons {
+            display: none;
+        }
+        .logout-buttons {
+            display: none;
+        }
+    </style>
 </head>
 
 <body class="chatbot">
@@ -190,7 +198,7 @@
                                             <img src="{% static 'chatbot/assets/images/avatar/man.png' %}" alt="user">
                                         </div>
                                         <div class="user_naim-information">
-                                            <h3 class="title">Mr.Tony Stark</h3>
+                                            <h3 class="title" id="userName"></h3>
                                             <!-- <span class="desig">CEO, Valo How Masud</span> -->
                                         </div>
                                     </div><br>

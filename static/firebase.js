@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged,signInWithPopup, GoogleAuthProvider, sendPasswordResetEmail, signOut   } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+import { getFirestore, collection,setDoc, addDoc,getDoc, getDocs, doc, updateDoc  } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -33,11 +33,10 @@ onAuthStateChanged(auth, (user) => {
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/auth.user
     isAuth = true;
-    console.log("authentic", user)
-    // document.getElementById("auth-buttons").style.display = "none";
-    // document.getElementsByClassName("auth-buttons").style.display = "none";
-    
-    toggleAuthButtons(true)
+    console.log("authentic", user.uid);
+    // testcreateUser(user.uid);
+    getUserData(user.uid);
+    toggleAuthButtons(true);
     // ...
   } else {
     // User is signed out
@@ -55,7 +54,7 @@ function signUp() {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log('Sign Up Successful:', user);
-        createUserProfile()
+        createUserProfile(user.uid)
         showPopup()
       })
       .catch((error) => {
@@ -82,13 +81,13 @@ function signUp() {
       });
   }
 
-  async function createUserProfile() {
+  async function createUserProfile(uid) {
     try {
-        const docRef = await addDoc(collection(db, "users"), {
+        await setDoc(doc(db, "users", uid), {
           name: document.getElementById('name').value,
           email: document.getElementById('email').value
         });
-        console.log("Document written with ID: ", docRef.id);
+        console.log("Document written with ID: ", uid);
       } catch (e) {
         console.error("Error adding document: ", e);
       }
@@ -124,6 +123,21 @@ function signUp() {
     });
   }
 
+  async function getUserData(uid) {
+    console.log("uid", uid)
+    const docRef = doc(db, "users", uid);
+    const docSnap = await getDoc(docRef);
+    
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data().name);
+      userName = docSnap.data().name;
+      document.getElementById("userName").innerHTML = docSnap.data().name;
+    } else {
+      // docSnap.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  }
+
   function showAlert(){
     alert("worked")
   }
@@ -154,12 +168,9 @@ function signUp() {
   function toggleAuthButtons(isAuth) {
     var authButtons = document.getElementsByClassName("auth-buttons");
     var logoutButtons = document.getElementsByClassName("logout-buttons");
-
+    
     if (isAuth) {
         // Hide the button area if the user is authenticated
-        for (var i = 0; i < authButtons.length; i++) {
-          authButtons[i].style.display = "none"; // Hide each element
-        }
         for (var i = 0; i < logoutButtons.length; i++){
           logoutButtons[i].style.display = "block"; // Hide each element
         }
@@ -167,9 +178,6 @@ function signUp() {
         // Show the button area if the user is not authenticated
         for (var i = 0; i < authButtons.length; i++) {
             authButtons[i].style.display = "block"; // Show each element
-        }
-        for (var i = 0; i < logoutButtons.length; i++){
-          logoutButtons[i].style.display = "none"; // Show each element
         }
       }
     }

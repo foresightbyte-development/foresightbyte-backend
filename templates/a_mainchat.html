@@ -11,32 +11,32 @@
         <div class="single__question__answer">
             <div class="question_user">
                 <div class="left_user_info">
-                    <img src="{% static 'chatbot/assets/images/avatar/03.png' %}" alt="avatar">
+                    <img src="{% static 'chatbot/assets/images/avatar/man.png' %}" style="height: 35px; width: 35px;" alt="avatar">
                     <div class="question__user">{{chatBody.question}}</div>
                 </div>
-                <div class="edit__icon openuptip" tooltip="Edit It">
+                <!-- <div class="edit__icon openuptip" tooltip="Edit It">
                     <i class="fa-regular fa-pen-to-square"></i>
-                </div>
+                </div> -->
             </div>
             <div class="answer__area">
                 <div class="thumbnail">
                     <img src="{% static 'ui/assets/images/favicon.ico' %}" alt="avatar">
                 </div>
                 <div class="answer_main__wrapper">
-                    <h4 class="common__title">Foresightbyte</h4>
+                    <!-- <h4 class="common__title">Foresightbyte</h4> -->
                     <p class="disc">
                         {{chatBody.answer}}
                     </p>
                 </div>
             </div>
 
-            <div class="share-reaction-area">
+            <!-- <div class="share-reaction-area">
                 <ul>
                     <li><a href="#" class="openuptip" tooltip="Save It"><i class="fa-regular fa-bookmark"></i></a></li>
                     <li><a href="#" class="openuptip" tooltip="Like"><i class="fa-light fa-thumbs-up"></i></a></li>
                     <li><a href="#" class="openuptip" tooltip="Unlike"><i class="fa-regular fa-thumbs-down"></i></a></li>
                 </ul>
-            </div>
+            </div> -->
         </div>
         {% endfor %}
     </div>
@@ -55,8 +55,9 @@
 
 <div class="right-side-bar-new-chat-option">
     <div class="new-chat-option">
-        <a href="{% url 'chatui' %}">
-            <img src="{% static 'chatbot/assets/images/logo/logo-02.png' %}" alt="logo">
+        <a href="{% url 'chatui' %}" style="color: blue;">
+            <!-- <img src="{% static 'chatbot/assets/images/logo/logo-02.png' %}" alt="logo"> -->
+             New Chat
             <img src="{% static 'chatbot/assets/images/icons/04.png' %}" alt="icons">
         </a>
     </div>
@@ -116,13 +117,15 @@
                 `<div class="single__question__answer user-message">
                     <div class="question_user">
                         <div class="left_user_info">
-                            <img src="{% static 'chatbot/assets/images/avatar/03.png' %}" alt="avatar">
+                            <img src="{% static 'chatbot/assets/images/avatar/man.png' %}" style="height: 35px; width: 35px;" alt="avatar">
                             <div class="question__user">${user_input}</div>
                         </div>
                     </div>
                     <div class="answer__area pending-response">
+                        <div class="thumbnail">
+                            <img src="{% static 'ui/assets/images/favicon.ico' %}" alt="avatar">
+                        </div>
                         <div class="answer_main__wrapper">
-                            <h4 class="common__title">Foresightbyte</h4>
                             <p class="disc loading-indicator">Loading...</p> <!-- Loading indicator here -->
                         </div>
                     </div>
