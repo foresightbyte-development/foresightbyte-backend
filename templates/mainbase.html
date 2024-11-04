@@ -18,6 +18,8 @@
     <!-- custom css style -->
     <link rel="stylesheet preload" href="{% static 'ui/assets/css/style.css' %}" as="style">
 
+    <!-- Chatbot css style -->
+
     <style>
         /* Styles for the popup container */
         .popup {
@@ -56,6 +58,14 @@
             position: absolute;
             top: 10px;
             right: 10px;
+        }
+
+        /* check auth or not */
+        .auth-buttons {
+            display: none;
+        }
+        .logout-buttons {
+            display: none;
         }
     </style>
 </head>
@@ -157,7 +167,7 @@
                             <!-- nav end -->
                                 <div class="button-area auth-buttons" >
                                     <a href="{% url 'login' %}" class="rts-btn btn-lonly mr--30">Log in</a>
-                                    <a href="{% url 'registration' %}" class="rts-btn btn-blur">Get Started</a>
+                                    <a href="{% url 'registration' %}" class="rts-btn btn-lonly mr--30">Get Started</a>
                                 </div>
                                 </br>
                                 <div class="button-area logout-buttons" >
@@ -298,56 +308,29 @@
         <div class="mobile-menu-main">
             <nav class="nav-main mainmenu-nav mt--30">
                 <ul class="mainmenu metismenu" id="mobile-menu-active">
-                    <li class="has-droupdown parent">
-                        <a href="#" class="main">Home</a>
-                        <ul class="submenu mm-collapse">
-                            <li><a class="mobile-menu-link" href="index.html">Content Writing 01</a></li>
-                            <li><a class="mobile-menu-link" href="index-two.html">Content Writing 03</a></li>
-                            <li><a class="mobile-menu-link" href="index-three.html">Content Writing 03</a></li>
-                            <li><a class="mobile-menu-link" href="index-four.html">Ai Chat Bot</a></li>
-                            <li><a class="mobile-menu-link" href="index-five.html">Voice Generator</a></li>
-                            <li><a class="mobile-menu-link" href="index-five.html">Image Generator</a></li>
-                            <li><a class="mobile-menu-link" href="index-five.html">Photo Stock</a></li>
-                        </ul>
-                    </li>
                     <li class="parent">
-                        <a href="feature.html" class="main">Use Cases</a>
+                        <a href="{% url 'welcome' %}" class="main">Home</a>
+                    </li>
+                    <li class="has-droupdown parent">
+                        <a href="#" class="main">Feature</a>
+                        <ul class="submenu mm-collapse">
+                            <li><a class="mobile-menu-link" href="{% url 'chatui' %}">AI Chat</a></li>
+                            <li><a class="mobile-menu-link" href="{% url 'sentimentui' %}">Sentiment Analysis</a></li>
+                        </ul>
                     </li>
                     <li class="has-droupdown parent">
                         <a href="#" class="main">Pages</a>
                         <ul class="submenu mm-collapse">
-                            <li><a class="mobile-menu-link" href="about.html">About Us</a></li>
-                            <li><a class="mobile-menu-link" href="blog.html">Blog</a></li>
-                            <li><a class="mobile-menu-link" href="blog-details.html">Blog Details</a></li>
-                            <li><a class="mobile-menu-link" href="contact.html">Contact</a></li>
-                            <li><a class="mobile-menu-link" href="use-case.html">Use Case</a></li>
-                            <li><a class="mobile-menu-link" href="use-case-2.html">Use Case 2</a></li>
-                            <li><a class="mobile-menu-link" href="case-details.html">Use Case Details</a></li>
-                            <li><a class="mobile-menu-link" href="case-details-2.html">Use Case Details</a></li>
-                            <li><a class="mobile-menu-link" href="pricing.html">Pricing</a></li>
-                            <li><a class="mobile-menu-link" href="pricing-two.html">Pricing Two</a></li>
-                            <li><a class="mobile-menu-link" href="pricing-three.html">Pricing Three</a></li>
-                            <li><a class="mobile-menu-link" href="faq.html">FAQ</a></li>
-                            <li><a class="mobile-menu-link" href="log-in.html">Log In</a></li>
-                            <li><a class="mobile-menu-link" href="registration.html">Registration</a></li>
-                            <li><a class="mobile-menu-link" href="reset.html">Reset</a></li>
-                            <li><a class="mobile-menu-link" href="404.html">Not Found</a></li>
+                            <li><a class="mobile-menu-link" href="{% url 'service' %}">services</a></li>
+                            <li><a class="mobile-menu-link" href="{% url 'about' %}">About Us</a></li>
+                            <li><a class="mobile-menu-link" href="{% url 'blog' %}">Blog</a></li>
+                            <li><a class="mobile-menu-link" href="{% url 'contact' %}">Contact</a></li>
+                            <li><a class="mobile-menu-link" href="{% url 'price' %}">Pricing</a></li>
+                            <li><a class="mobile-menu-link" href="{% url 'faq' %}">FAQ</a></li>
+                            <li><a class="mobile-menu-link auth-buttons" href="{% url 'login' %}">Log In</a></li>
+                            <li><a class="mobile-menu-link auth-buttons" href="{% url 'registration' %}">Registration</a></li>
+                            <li><a class="mobile-menu-link auth-buttons" href="{% url 'reset' %}">Reset</a></li>
                         </ul>
-                    </li>
-                    <li class="parent">
-                        <a href="feature.html" class="main">Feature</a>
-                    </li>
-                    <li class="has-droupdown parent">
-                        <a href="#" class="main">Shop</a>
-                        <ul class="submenu mm-collapse">
-                            <li><a class="mobile-menu-link" href="shop-details.html">Product Details</a></li>
-                            <li><a class="mobile-menu-link" href="cart.html">Cart</a></li>
-                            <li><a class="mobile-menu-link" href="checkout.html">Checkout</a></li>
-                            <li><a class="mobile-menu-link" href="log-in.html">My Account</a></li>
-                        </ul>
-                    </li>
-                    <li class="parent">
-                        <a href="contact.html" class="main">Contact</a>
                     </li>
                 </ul>
             </nav>
@@ -401,96 +384,8 @@
     <script src="{% static 'ui/assets/js/plugins/contact.form.js' %}" defer></script>
     <script src="{% static 'ui/assets/js/main.js' %}" defer></script>
     <script type="module" src="{% static 'firebase.js' %}" defer></script>
-    <!-- <script type="module">
-        
-        console.log('Hey sdfsdfsdfs')
-        // firebase-config.js
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-// Initialize Firebase
-
-// Export Firebase services to use elsewhere in your app
-
-       
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-    apiKey: "AIzaSyArlRNk669hLIpAgEVaynk2ov95ctjm3Qg",
-    authDomain: "foresightbyte-0001.firebaseapp.com",
-    projectId: "foresightbyte-0001",
-    storageBucket: "foresightbyte-0001.firebasestorage.app",
-    messagingSenderId: "153825011541",
-    appId: "1:153825011541:web:577c245b5c26418197b1dc",
-    measurementId: "G-HM18BGQQP4"
-    };
-        
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const db = getFirestore(app)
-const auth = getAuth()
-
-
-function test(){
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const name = document.getElementById('name').value;
-
-    console.log("email: ", email);
-    console.log("password: ", password);
-    console.log("name: ", name);
-}
-
-// Authentication functions
-function signUp() {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log('Sign Up Successful:', user);
-        createUserProfile()
-      })
-      .catch((error) => {
-        console.error('Error signing up:', error.message);
-      });
-  }
-  
-  function logIn() {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log('Log In Successful:', user);
-      })
-      .catch((error) => {
-        console.error('Error logging in:', error.message);
-      });
-  }
-
-  async function createUserProfile() {
-    try {
-        const docRef = await addDoc(collection(db, "users"), {
-          name: document.getElementById('name').value,
-          email: document.getElementById('email').value,
-          uid: docRef.id
-        });
-        console.log("Document written with ID: ", docRef.id);
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-  }
-
-  window.signUp = signUp;
-  window.logIn = logIn;
-  window.test = test;
     
-</script> -->
+    <!-- chatbot js -->
 </body>
 
 </html>

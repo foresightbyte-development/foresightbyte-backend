@@ -17,6 +17,16 @@
     <link rel="stylesheet preload" href="{% static 'ui/assets/css/vendor/bootstrap.min.css' %}" as="style">
     <!-- custom css style -->
     <link rel="stylesheet preload" href="{% static 'ui/assets/css/style.css' %}" as="style">
+
+    <style>
+        /* check auth or not */
+        .auth-buttons {
+            display: none;
+        }
+        .logout-buttons {
+            display: none;
+        }
+    </style>
 </head>
 
 <body class="index-four">
@@ -145,7 +155,7 @@
                             <!-- nav end -->
                             <div class="button-area auth-buttons" >
                                 <a href="{% url 'login' %}" class="rts-btn btn-lonly mr--30">Log in</a>
-                                <a href="{% url 'registration' %}" class="rts-btn btn-blur">Get Started</a>
+                                <a href="{% url 'registration' %}" class="rts-btn btn-lonly mr--30">Get Started</a>
                             </div>
                             </br>
                             <div class="button-area logout-buttons" >
@@ -943,56 +953,29 @@
         <div class="mobile-menu-main">
             <nav class="nav-main mainmenu-nav mt--30">
                 <ul class="mainmenu metismenu" id="mobile-menu-active">
-                    <li class="has-droupdown parent">
-                        <a href="#" class="main">Home</a>
-                        <ul class="submenu mm-collapse">
-                            <li><a class="mobile-menu-link" href="index.html">Content Writing 01</a></li>
-                            <li><a class="mobile-menu-link" href="index-two.html">Content Writing 03</a></li>
-                            <li><a class="mobile-menu-link" href="index-three.html">Content Writing 03</a></li>
-                            <li><a class="mobile-menu-link" href="index-four.html">Ai Chat Bot</a></li>
-                            <li><a class="mobile-menu-link" href="index-five.html">Voice Generator</a></li>
-                            <li><a class="mobile-menu-link" href="index-five.html">Image Generator</a></li>
-                            <li><a class="mobile-menu-link" href="index-five.html">Photo Stock</a></li>
-                        </ul>
-                    </li>
                     <li class="parent">
-                        <a href="feature.html" class="main">Use Cases</a>
+                        <a href="{% url 'welcome' %}" class="main">Home</a>
+                    </li>
+                    <li class="has-droupdown parent">
+                        <a href="#" class="main">Feature</a>
+                        <ul class="submenu mm-collapse">
+                            <li><a class="mobile-menu-link" href="{% url 'chatui' %}">AI Chat</a></li>
+                            <li><a class="mobile-menu-link" href="{% url 'sentimentui' %}">Sentiment Analysis</a></li>
+                        </ul>
                     </li>
                     <li class="has-droupdown parent">
                         <a href="#" class="main">Pages</a>
                         <ul class="submenu mm-collapse">
-                            <li><a class="mobile-menu-link" href="about.html">About Us</a></li>
-                            <li><a class="mobile-menu-link" href="blog.html">Blog</a></li>
-                            <li><a class="mobile-menu-link" href="blog-details.html">Blog Details</a></li>
-                            <li><a class="mobile-menu-link" href="contact.html">Contact</a></li>
-                            <li><a class="mobile-menu-link" href="use-case.html">Use Case</a></li>
-                            <li><a class="mobile-menu-link" href="use-case-2.html">Use Case 2</a></li>
-                            <li><a class="mobile-menu-link" href="case-details.html">Use Case Details</a></li>
-                            <li><a class="mobile-menu-link" href="case-details-2.html">Use Case Details</a></li>
-                            <li><a class="mobile-menu-link" href="pricing.html">Pricing</a></li>
-                            <li><a class="mobile-menu-link" href="pricing-two.html">Pricing Two</a></li>
-                            <li><a class="mobile-menu-link" href="pricing-three.html">Pricing Three</a></li>
-                            <li><a class="mobile-menu-link" href="faq.html">FAQ</a></li>
-                            <li><a class="mobile-menu-link" href="log-in.html">Log In</a></li>
-                            <li><a class="mobile-menu-link" href="registration.html">Registration</a></li>
-                            <li><a class="mobile-menu-link" href="reset.html">Reset</a></li>
-                            <li><a class="mobile-menu-link" href="404.html">Not Found</a></li>
+                            <li><a class="mobile-menu-link" href="{% url 'service' %}">services</a></li>
+                            <li><a class="mobile-menu-link" href="{% url 'about' %}">About Us</a></li>
+                            <li><a class="mobile-menu-link" href="{% url 'blog' %}">Blog</a></li>
+                            <li><a class="mobile-menu-link" href="{% url 'contact' %}">Contact</a></li>
+                            <li><a class="mobile-menu-link" href="{% url 'price' %}">Pricing</a></li>
+                            <li><a class="mobile-menu-link" href="{% url 'faq' %}">FAQ</a></li>
+                            <li><a class="mobile-menu-link auth-buttons" href="{% url 'login' %}">Log In</a></li>
+                            <li><a class="mobile-menu-link auth-buttons" href="{% url 'registration' %}">Registration</a></li>
+                            <li><a class="mobile-menu-link auth-buttons" href="{% url 'reset' %}">Reset</a></li>
                         </ul>
-                    </li>
-                    <li class="parent">
-                        <a href="feature.html" class="main">Feature</a>
-                    </li>
-                    <li class="has-droupdown parent">
-                        <a href="#" class="main">Shop</a>
-                        <ul class="submenu mm-collapse">
-                            <li><a class="mobile-menu-link" href="shop-details.html">Product Details</a></li>
-                            <li><a class="mobile-menu-link" href="cart.html">Cart</a></li>
-                            <li><a class="mobile-menu-link" href="checkout.html">Checkout</a></li>
-                            <li><a class="mobile-menu-link" href="log-in.html">My Account</a></li>
-                        </ul>
-                    </li>
-                    <li class="parent">
-                        <a href="contact.html" class="main">Contact</a>
                     </li>
                 </ul>
             </nav>
