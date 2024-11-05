@@ -3,6 +3,18 @@
 
 
 {% block mainbody %}
+<!-- Overlay -->
+<div class="overlay" id="overlay"></div>
+
+<!-- Popup container -->
+<div class="popup" id="popup">
+    <span class="close-btn" onclick="closePopup()">&times;</span>
+    <p>Password reset email sent..!</p>
+</div>
+<div class="popup" id="error">
+    <span class="close-btn" onclick="closePopup()">&times;</span>
+    <p>Invalid email address..!</p>
+</div>
 
 
 
@@ -17,7 +29,7 @@
 
                             <h1 class="bread-title" style="color: rgb(2, 41, 48);">Reset Password </h1>
                             <div class="inner-wrapper">
-                                <a href="index-four.html" style="color: rgb(0, 0, 0);">Home /</a>
+                                <a href="{% url 'welcome' %}" style="color: rgb(0, 0, 0);">Home /</a>
                                 <a href="#" class="active" style="color: rgb(7, 75, 87);">Reset Password</a>
                             </div>
 
@@ -45,7 +57,7 @@
                         <div class="body">
                             <form action="#">
                                 <div class="input-wrapper">
-                                    <input type="email" placeholder="Enter your mail" required>
+                                    <input type="email" id="email" placeholder="Enter your mail" required>
                                 </div>
                                 <div class="check-wrapper">
                                     <div class="form-check">
@@ -55,8 +67,8 @@
                                         </label>
                                     </div>
                                 </div>
-                                <button type="submit" class="rts-btn btn-primary">Send Reset Link</button>
-                                <p><a href="log-in.html"><i class="fa-solid fa-arrow-left"></i> Back to Login</a></p>
+                                <button type="submit" onclick="resetPassword()" class="rts-btn btn-primary">Send Reset Link</button>
+                                <p><a href="{% url 'login' %}"><i class="fa-solid fa-arrow-left"></i> Back to Login</a></p>
                             </form>
                         </div>
                     </div>
