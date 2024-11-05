@@ -16438,7 +16438,7 @@ body.sal-disabled [data-sal|=flip] {
   max-width: 63%;
 }
 .main-center-content-m-left.center-content .search-form input {
-  height: 56px;
+  height: 76px;
   width: 100%;
   position: fixed;
   bottom: 20px;
@@ -16485,7 +16485,7 @@ body.chatbot::-webkit-scrollbar {
   margin-bottom: 40px;
 }
 .question_answer__wrapper__chatbot .single__question__answer:last-child {
-  margin-bottom: 117px;
+  margin-bottom: 217px;
 }
 .question_answer__wrapper__chatbot .single__question__answer .question_user {
   display: flex;
@@ -16597,7 +16597,7 @@ body.chatbot::-webkit-scrollbar {
     max-width: 95%;
   }
 }
-
+/* 
 .chatbot .search-sticky .search-form input {
   transition: 0s;
 }
@@ -16608,7 +16608,7 @@ body.chatbot::-webkit-scrollbar {
   height: 55px;
   bottom: 95px;
   transition: 0s !important;
-}
+} */
 
 .community-feed .loadmore-btn {
   max-width: max-content;
