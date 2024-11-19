@@ -11,7 +11,7 @@ from accounts.views import SignOutView
 urlpatterns = [
     path('registration/', registration, name='registration'),
     path('login/', login, name='login'),
-    path('sign-out/', SignOutView.as_view(), name='sign-out'),
+    # path('sign-out/', SignOutView.as_view(), name='sign-out'),
     
 ]
 
