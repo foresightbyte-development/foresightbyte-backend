@@ -6,14 +6,19 @@ import json
 import google.generativeai as genai
 from django.http import JsonResponse
 from django.http import HttpResponseRedirect
-from firebase_admin import firestore
+from firebase_admin import firestore,credentials
 import requests
 from django.views.decorators.csrf import csrf_exempt
 import uuid
+import firebase_admin
 
-from firebase_config import firebase_app  
 # Initialize Firestore
+
+cred = credentials.Certificate("foresightbyte-0001-firebase-adminsdk-xhp8j-e929ce6d44.json")
 db = firestore.client()
+
+
+
 
 
 # Set up the model
@@ -54,12 +59,25 @@ model = genai.GenerativeModel(model_name="gemini-1.0-pro",
 
 
 
+
+
+
+
+
+
 @csrf_exempt
 def chat_add(request):
 
-    session_uid = request.session.get('uid')
-
-    print('session_uid',session_uid)
+    try:
+        # Retrieve 'uid' from session
+        session_uid = request.session.get('uid')
+        
+        if not session_uid:
+            session_uid = "4exc333443"
+    
+    except Exception as e:
+        # Handle any unexpected errors
+        return JsonResponse({'error': f'An unexpected error occurred: {str(e)}'}, status=500)
 
     question = request.GET.get('offset')
     
@@ -72,6 +90,10 @@ def chat_add(request):
             'https://srv627362.hstgr.cloud/ask/', 
             json={"question_text": question}
         )
+        # response = requests.post(
+        #     'http://localhost:8000/ask/', 
+        #     json={"question_text": question}
+        # )
         response.raise_for_status()  # Ensure HTTP error codes are raised
         data = response.json()
         answer_text = data.get('answer_text', 'No answer provided')
@@ -114,36 +136,55 @@ def chat_add(request):
 
 
 
+import logging
+
+logger = logging.getLogger(__name__)
 
 def chatui(request):
-
     user_id = request.session.get('uid')
-    try:
-        del request.session['counter']
-        del request.session['chat_data']
-        
-    except KeyError:
-        pass  # Handle the case where the session key does not exist
+
 
     conversations = []
-    
+
+
     try:
-        # Fetch all documents from the 'conversations' collection
+        # Fetch conversations for the specific user from Firestore
+        print('user_id',user_id)
         docs = db.collection('conversations').where('user_id', '==', user_id).stream()
+        # docs = db.collection('conversations').stream()
         for doc in docs:
             conversation = doc.to_dict()
-            conversation['id'] = doc.id  # Include the document ID
+            conversation['id'] = doc.id
             conversations.append(conversation)
     except Exception as e:
-        print(f"Error fetching conversations: {e}")
+        logger.error(f"Error fetching conversations: {e}")
+        return render(request, 'a_mainchat.html', {
+            'conversations': [], 
+            'error': 'Could not fetch conversations. Please try again later.'
+        })
+
     
+    print('conversations',conversations)
     # Pass the conversations to the template
     return render(request, 'a_mainchat.html', {'conversations': conversations})
 
 
 
 def view_conversation_by_id(request, doc_id):
-    user_id = request.session.get('uid')
+    session_uid = request.session.get('uid')
+    
+    try:
+        # Retrieve 'uid' from session
+        user_id = request.session.get('uid')
+        
+        if not session_uid:
+            user_id = "4exc333443"
+    
+    except Exception as e:
+        # Handle any unexpected errors
+        return JsonResponse({'error': f'An unexpected error occurred: {str(e)}'}, status=500)
+
+    
 
     conversations = []
     
