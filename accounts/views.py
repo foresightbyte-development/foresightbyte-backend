@@ -14,6 +14,7 @@ from django.http import JsonResponse
 
 from firebase_admin import auth, firestore
 
+from firebase_config import firebase_app  
 # Initialize Firestore
 db = firestore.client()
 
