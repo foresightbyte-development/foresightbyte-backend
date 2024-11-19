@@ -4,8 +4,6 @@
 from django.urls import include, path
 
 from accounts.views import *
-from accounts.views import SignOutView
-# from accounts.views import DoctorSignInView
 
 # Routing Implement
 urlpatterns = [
