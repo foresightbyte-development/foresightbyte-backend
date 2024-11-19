@@ -7,38 +7,31 @@
 
  <div class="main-center-content-m-left center-content search-sticky">
     <div class="question_answer__wrapper__chatbot" id="report_dynamic_field">
-        {% for chatBody in chatBodys %}
-        <div class="single__question__answer">
-            <div class="question_user">
-                <div class="left_user_info">
-                    <img src="{% static 'chatbot/assets/images/avatar/man.png' %}" style="height: 35px; width: 35px;" alt="avatar">
-                    <div class="question__user">{{chatBody.question}}</div>
+        {% if conversation  %}
+        {% for qa in conversation.questions %}
+                <div class="single__question__answer">
+                    <div class="question_user">
+                        <div class="left_user_info">
+                            <img src="{% static 'chatbot/assets/images/avatar/man.png' %}" style="height: 35px; width: 35px;" alt="avatar">
+                            <div class="question__user">{{ qa.question }}</div>
+                        </div>
+                    </div>
+                    <div class="answer__area">
+                        <div class="thumbnail">
+                            <img src="{% static 'ui/assets/images/favicon.ico' %}" alt="avatar">
+                        </div>
+                        <div class="answer_main__wrapper">
+                            <p class="disc">
+                                {{ qa.answer}}
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <!-- <div class="edit__icon openuptip" tooltip="Edit It">
-                    <i class="fa-regular fa-pen-to-square"></i>
-                </div> -->
-            </div>
-            <div class="answer__area">
-                <div class="thumbnail">
-                    <img src="{% static 'ui/assets/images/favicon.ico' %}" alt="avatar">
-                </div>
-                <div class="answer_main__wrapper">
-                    <!-- <h4 class="common__title">Foresightbyte</h4> -->
-                    <p class="disc">
-                        {{chatBody.answer}}
-                    </p>
-                </div>
-            </div>
-
-            <!-- <div class="share-reaction-area">
-                <ul>
-                    <li><a href="#" class="openuptip" tooltip="Save It"><i class="fa-regular fa-bookmark"></i></a></li>
-                    <li><a href="#" class="openuptip" tooltip="Like"><i class="fa-light fa-thumbs-up"></i></a></li>
-                    <li><a href="#" class="openuptip" tooltip="Unlike"><i class="fa-regular fa-thumbs-down"></i></a></li>
-                </ul>
-            </div> -->
-        </div>
+          
         {% endfor %}
+       
+    {% endif %}
+
     </div>
     <div >
         <form action="#" class="search-form">
@@ -63,33 +56,41 @@
     </div>
     <div class="chat-history-wrapper">
         
+          
+
+
+
             <div class="chat-history-area-start">
                 <!-- <h6 class="title">Today</h6> -->
 
-                {% for chatTitle in chatTitles %}
-                    {% if chatTitle.id == id %}
+                {% if conversations %}
+
+                {% for conversation in conversations  %}
+                   
 
                 <div class="single-history">
-                    <a href="{% url 'dynamic' chatTitle.id %}"><p>{{ chatTitle.title|truncatechars:30 }}</p> 
-                    <a href="{% url 'dynamic_delete' chatTitle.id %}">
+                    <a href="{% url 'dynamic' conversation.id %}"><p>{{ conversation.title|truncatechars:30 }}</p> 
+                    <a href="{% url 'dynamic_delete' conversation.id %}">
                         <img src="{% static 'chatbot/assets/images/icons/icons8-delete.svg' %}" alt="icons" width="50px">
                         
                     </a>
                 </div>
-                {% else %}
-                <div class="single-history">
-                    <a href="{% url 'dynamic' chatTitle.id %}"><p>{{ chatTitle.title|truncatechars:30 }}</p></a> 
-                    <a href="{% url 'dynamic_delete' chatTitle.id %}">
-                        <img src="{% static 'chatbot/assets/images/icons/icons8-delete.svg' %}" alt="icons" width="30px">
-                        
-                    </a>
-
-                </div>
-                
-                {% endif %}
+               
+              
 
                 {% endfor %}
+                {% else %}
+                <p>No conversations found.</p>
+            {% endif %}
             </div>
+
+
+            
+
+
+
+
+
 
         
     </div>

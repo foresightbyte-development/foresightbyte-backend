@@ -47,11 +47,12 @@
                             <h5 class="title">Create an account</h5>
                         </div>
                         <div class="body">
-                            <form action="#">
+                            <form  action="{% url 'registration' %}" method="post" >
+                                {% csrf_token %}
                                 <div class="input-wrapper">
-                                    <input type="text" id="name" placeholder="Full Name" required>
-                                    <input type="email" id="email" placeholder="Enter your mail">
-                                    <input type="password" id="password" placeholder="Enter your Password">
+                                    <input type="text" name="name" placeholder="Full Name" required>
+                                    <input type="email" name="email" placeholder="Enter your mail" required>
+                                    <input type="password" name="password" placeholder="Enter your Password" required>
                                 </div>
                                 <div class="check-wrapper">
                                     <div class="form-check">
@@ -61,7 +62,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <button class="rts-btn btn-primary" onclick="signUp()">Create Account</button>
+                                <button type="submit" class="rts-btn btn-primary">Create Account</button>
                                 <p>If you have an account? <a class="ml--5" href="{% url 'login' %}">Sign in</a></p>
                             </form>
                         </div>

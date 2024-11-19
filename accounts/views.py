@@ -7,37 +7,88 @@ from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.views.generic import View
+from django.http import JsonResponse
 
 
 # Create your views here.
 
-def SignInView(request):
-    if request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['login[password]']
+from firebase_admin import auth, firestore
 
+from firebase_config import firebase_app  
+# Initialize Firestore
+db = firestore.client()
+
+
+def registration(request):
+    if request.method == 'POST':
         try:
-            user = User.objects.get(email = email)
-                    
-            if user.check_password(password) :
-                login(request, user)
-                if user.is_sub:
-                    return redirect('admin_dashboard')
-                elif user.is_customer:
-                    return redirect('admin_dashboard')
-                elif user.is_superuser:
-                    return redirect('admin_dashboard')
-                else:
-                    return render(request, 'admin/login.html')
-                
+            # Extract user details from POST request
+            name = request.POST['name']
+            email = request.POST['email']
+            password = request.POST['password']
+
+            # Create the user in Firebase Authentication
+            user = auth.create_user(
+                email=email,
+                password=password,
+                display_name=name
+            )
+
+            # Store additional user details in Firestore
+            db.collection('users').document(user.uid).set({
+                'name': name,
+                'email': email,
+                'uid': user.uid,
+            })
+
+            # Send a success response
+            return JsonResponse({'message': 'User registered successfully', 'uid': user.uid}, status=201)
+
+        except Exception as e:
+            # Handle errors (e.g., duplicate email, invalid input)
+            return JsonResponse({'error': str(e)}, status=400)
+
+    return render(request, 'registration.html')
+
+
+
+def login(request):
+    if request.method == 'POST':
+        try:
+            # Extract email and password from the POST request
+            email = request.POST['email']
+            password = request.POST['password']
+
+
+            print('email',email)
+            print('password',password)
+
+            # Sign in the user with Firebase
+            user = auth.get_user_by_email(email)
             
-        except User.DoesNotExist:
-            return render(request, 'login.html')
-        
+            # Check Firestore for user details (optional)
+            user_doc = db.collection('users').document(user.uid).get()
+            if user_doc.exists:
+                user_data = user_doc.to_dict()
+            else:
+                user_data = {'message': 'No additional user data found in Firestore.'}
+
+            # You could also generate a custom token for additional operations
+            custom_token = auth.create_custom_token(user.uid)
+
+            # Send a success response with user data and custom token
+            return JsonResponse({
+                'message': 'Login successful',
+                'user_data': user_data,
+                'custom_token': custom_token.decode('utf-8'),
+            }, status=200)
+
+        except Exception as e:
+            # Handle errors (e.g., invalid credentials or user not found)
+            return JsonResponse({'error': str(e)}, status=401)
+
     return render(request, 'login.html')
 
-def register(request):
-    return render(request, 'register.html')
 
 class SignOutView(LoginRequiredMixin, View):
     ''' Logoutview will logout the current login user '''

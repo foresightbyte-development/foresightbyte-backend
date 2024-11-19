@@ -46,22 +46,7 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-// Authentication functions
-function signUp() {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log('Sign Up Successful:', user);
-        createUserProfile(user.uid)
-        showPopup()
-      })
-      .catch((error) => {
-        console.error('Error signing up:', error.message);
-      });
-  }
-  
+
   function logIn() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -81,33 +66,33 @@ function signUp() {
       });
   }
 
-  async function createUserProfile(uid) {
-    try {
-        await setDoc(doc(db, "users", uid), {
-          name: document.getElementById('name').value,
-          email: document.getElementById('email').value
-        });
-        console.log("Document written with ID: ", uid);
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-  }
+  // async function createUserProfile(uid) {
+  //   try {
+  //       await setDoc(doc(db, "users", uid), {
+  //         name: document.getElementById('name').value,
+  //         email: document.getElementById('email').value
+  //       });
+  //       console.log("Document written with ID: ", uid);
+  //     } catch (e) {
+  //       console.error("Error adding document: ", e);
+  //     }
+  // }
 
-  function resetPassword(){
-    const email = document.getElementById('email').value;
-    sendPasswordResetEmail(auth, email)
-    .then(() => {
-      console.log("Password reset email sent!")
-      showPopup('success')
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log("reset error: ", errorMessage)
-      showPopup('error')
-      // ..
-    });
-  }
+  // function resetPassword(){
+  //   const email = document.getElementById('email').value;
+  //   sendPasswordResetEmail(auth, email)
+  //   .then(() => {
+  //     console.log("Password reset email sent!")
+  //     showPopup('success')
+  //   })
+  //   .catch((error) => {
+  //     const errorCode = error.code;
+  //     const errorMessage = error.message;
+  //     console.log("reset error: ", errorMessage)
+  //     showPopup('error')
+  //     // ..
+  //   });
+  // }
 
   function logOut() {
     signOut(auth).then(() => {
@@ -125,6 +110,7 @@ function signUp() {
 
   async function getUserData(uid) {
     console.log("uid", uid)
+    document.cookie = `session_uid=${uid}; path=/;`;
     const docRef = doc(db, "users", uid);
     const docSnap = await getDoc(docRef);
     
@@ -137,6 +123,12 @@ function signUp() {
       console.log("No such document!");
     }
   }
+
+
+
+  
+
+
 
   function showAlert(){
     alert("worked")
@@ -182,12 +174,11 @@ function signUp() {
       }
     }
 
-  window.signUp = signUp;
   window.logIn = logIn;
   window.logOut = logOut;
   window.showPopup = showPopup;
   window.closePopup = closePopup;
   window.toggleAuthButtons = toggleAuthButtons;
-  window.resetPassword = resetPassword;
+  // window.resetPassword = resetPassword;
   window.showAlert = showAlert;
   
