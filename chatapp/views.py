@@ -13,10 +13,8 @@ import uuid
 import firebase_admin
 
 # Initialize Firestore
-
-cred = credentials.Certificate("foresightbyte-0001-firebase-adminsdk-xhp8j-e929ce6d44.json")
-db = firestore.client()
-
+# from firebase_config import firebase_app  
+from demo.settings import db
 
 
 
@@ -67,6 +65,7 @@ model = genai.GenerativeModel(model_name="gemini-1.0-pro",
 
 @csrf_exempt
 def chat_add(request):
+    
 
     try:
         # Retrieve 'uid' from session
@@ -86,14 +85,14 @@ def chat_add(request):
     
     try:
         # Sending POST request to the external service
-        response = requests.post(
-            'https://srv627362.hstgr.cloud/ask/', 
-            json={"question_text": question}
-        )
         # response = requests.post(
-        #     'http://localhost:8000/ask/', 
+        #     'https://srv627362.hstgr.cloud/ask/', 
         #     json={"question_text": question}
         # )
+        response = requests.post(
+            'http://localhost:8000/ask/', 
+            json={"question_text": question}
+        )
         response.raise_for_status()  # Ensure HTTP error codes are raised
         data = response.json()
         answer_text = data.get('answer_text', 'No answer provided')
@@ -141,6 +140,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 def chatui(request):
+    if 'counter' in request.session:
+        del request.session['counter']
     user_id = request.session.get('uid')
 
 
@@ -149,7 +150,7 @@ def chatui(request):
 
     try:
         # Fetch conversations for the specific user from Firestore
-        print('user_id',user_id)
+        # print('user_id',user_id)
         docs = db.collection('conversations').where('user_id', '==', user_id).stream()
         # docs = db.collection('conversations').stream()
         for doc in docs:
@@ -164,13 +165,15 @@ def chatui(request):
         })
 
     
-    print('conversations',conversations)
+    # print('conversations',conversations)
     # Pass the conversations to the template
     return render(request, 'a_mainchat.html', {'conversations': conversations})
 
 
 
 def view_conversation_by_id(request, doc_id):
+    if 'counter' in request.session:
+        del request.session['counter']
     session_uid = request.session.get('uid')
     
     try:

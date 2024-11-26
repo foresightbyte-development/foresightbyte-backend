@@ -188,6 +188,8 @@
                                 </div>
 
                             </div>
+                            {% if user_id %}
+
                             <div class="single_action__haeader user_avatar__information openuptip logout-buttons" flow="down" tooltip="Profile">
                                 <div class="avatar">
                                     <img src="{% static 'chatbot/assets/images/avatar/man.png' %}" alt="avatar">
@@ -202,47 +204,18 @@
                                             <!-- <span class="desig">CEO, Valo How Masud</span> -->
                                         </div>
                                     </div><br>
-                                    <!-- <div class="user_body_content">
-                                        <ul class="items">
-                                            <li class="single_items">
-                                                <a class="hader_popup_link" href="#">
-                                                    <i class="fa-light fa-user"></i>
-                                                    Profile
-                                                </a>
-                                            </li>
-                                            <li class="single_items">
-                                                <a class="hader_popup_link" href="#">
-                                                    <i class="fa-regular fa-gear"></i>
-                                                    Settings
-                                                </a>
-                                            </li>
-                                            <li class="single_items">
-                                                <a class="hader_popup_link" href="#">
-                                                    <i class="fa-light fa-person-snowmobiling"></i>
-                                                    Billing
-                                                </a>
-                                            </li>
-                                            <li class="single_items">
-                                                <a class="hader_popup_link" href="#">
-                                                    <i class="fa-solid fa-wave-pulse"></i>
-                                                    Activity
-                                                </a>
-                                            </li>
-                                            <li class="single_items">
-                                                <a class="hader_popup_link" href="#">
-                                                    <i class="fa-regular fa-bell"></i>
-                                                    Help
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div> -->
+                                
+                                  
                                     <div class="popup-footer-btn">
                                         <a onclick="logOut()" class="geex-content__header__popup__footer__link">Logout
                                             <i class="fa-light fa-arrow-right"></i>
                                         </a>
                                     </div><br>
+                                  
+
                                 </div>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

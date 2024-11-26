@@ -9,8 +9,13 @@ import google.generativeai as genai
 # genai.configure(api_key="AIzaSyCRKIsZL-8UjLU_eLaHhNvSlVedIUDLb4g")
 
 #genai.configure(api_key="AIzaSyCa3TodvqZSSo3NlzLKzFfTuiEMrb73rbI")
-genai.configure(api_key="AIzaSyDGGMfoKBHGPASaai4QerSIEudCE2x7ZoM")
+
 #genai.configure(api_key="AIzaSyCRKIsZL-8UjLU_eLaHhNvSlVedIUDLb4g")
+
+
+# genai.configure(api_key="AIzaSyDGGMfoKBHGPASaai4QerSIEudCE2x7ZoM")
+genai.configure(api_key="AIzaSyA6h1GsXORwihtpjQVqrACZ9R-ny5yiXPg")
+
 
 # Set up the model
 generation_config = {

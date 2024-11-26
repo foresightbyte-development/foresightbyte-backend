@@ -13,10 +13,8 @@ from django.http import JsonResponse
 # Create your views here.
 
 from firebase_admin import auth, firestore
-
-from firebase_config import firebase_app_1  
 # Initialize Firestore
-db = firestore.client()
+from demo.settings import db
 
 
 def registration(request):
@@ -42,7 +40,8 @@ def registration(request):
             })
 
             # Send a success response
-            return JsonResponse({'message': 'User registered successfully', 'uid': user.uid}, status=201)
+            return redirect('login')
+            # return JsonResponse({'message': 'User registered successfully', 'uid': user.uid}, status=201)
 
         except Exception as e:
             # Handle errors (e.g., duplicate email, invalid input)
@@ -75,6 +74,8 @@ def login(request):
 
             # You could also generate a custom token for additional operations
             custom_token = auth.create_custom_token(user.uid)
+
+            print('custom_token',custom_token)
 
             # Send a success response with user data and custom token
             return JsonResponse({

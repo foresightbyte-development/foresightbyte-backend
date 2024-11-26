@@ -11,6 +11,31 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Get the Firebase credentials file path from environment variables
+FIREBASE_CREDENTIALS = os.getenv('FIREBASE_CREDENTIALS')
+
+if not FIREBASE_CREDENTIALS:
+    raise ValueError("FIREBASE_CREDENTIALS environment variable not set")
+
+from firebase_admin import credentials, firestore, initialize_app
+
+# Use the path from the environment variable to initialize Firebase
+cred = credentials.Certificate(FIREBASE_CREDENTIALS)
+initialize_app(cred)
+
+# Create Firestore client
+db = firestore.client()
+
+print("Firestore client initialized successfully!")
+
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -70,6 +95,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                'config.context_processors.user_context',
             ],
         },
     },
@@ -138,3 +164,22 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Default User
 
 AUTH_USER_MODEL = 'accounts.User'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'logfile.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
