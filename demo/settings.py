@@ -32,7 +32,6 @@ initialize_app(cred)
 # Create Firestore client
 db = firestore.client()
 
-print("Firestore client initialized successfully!")
 
 
 
@@ -51,7 +50,8 @@ SECRET_KEY = 'django-insecure-s%_zqldvx+4fwa&08*&ve08ty^p0=uc(dl$bfh3o27#x9ocg=b
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['foresightbytes.com','www.foresightbytes.com']
+# ALLOWED_HOSTS = ['emobyte.com','www.emobyte.com']
+ALLOWED_HOSTS = ['*']
 
 
 
@@ -95,7 +95,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                'config.context_processors.user_context',
+                # 'config.context_processors.user_context',
+                'chatapp.context_processors.user_name_processor',
             ],
         },
     },
